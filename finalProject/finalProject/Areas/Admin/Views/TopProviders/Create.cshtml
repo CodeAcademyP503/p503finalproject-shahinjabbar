@@ -1,0 +1,51 @@
+﻿@model finalProject.Models.TopProvider
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>TopProvider</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TagName" class="control-label"></label>
+                <input asp-for="TagName" class="form-control" />
+                <span asp-validation-for="TagName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BackColor" class="control-label"></label>
+                <input asp-for="BackColor" class="form-control" />
+                <span asp-validation-for="BackColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" class="form-control" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataId" class="control-label"></label>
+                <input asp-for="DataId" class="form-control" />
+                <span asp-validation-for="DataId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LangId" class="control-label"></label>
+                <input asp-for="LangId" class="form-control" />
+                <span asp-validation-for="LangId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="TopProviders">Back to List</a>
+</div>
+

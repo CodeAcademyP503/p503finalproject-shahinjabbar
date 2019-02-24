@@ -1,0 +1,141 @@
+﻿@using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal
+@model finalProject.Views.ViewModels.HomeViewModel
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    let mainWidth = 1200;
+    let secondWidth = 700;
+    let arry = JSON.parse('@Json.Serialize(@Model.TopProviderViewModels)');
+    let secondArray=JSON.parse('@Json.Serialize(@Model.CoreProviderViewModels)')
+    let $width = secondWidth / 3;
+    let langConfigArray = @Html.Raw(Json.Serialize(@Model.LangId));
+    let logoArrFromDb = @Html.Raw(Json.Serialize(@Model.IndexPhoto));
+    let secondLogoPath = document.createElement("img");
+    let mainLogoPath = document.createElement("img");
+    let footerText =@Html.Raw(@Json.Serialize(@Model.FooterText));
+    let langid=@Html.Raw(@Json.Serialize(@Model.LanguageId));
+    let logoArr = [mainLogoPath, secondLogoPath];
+    let classNameArray = ["mainlogo", "secondlogo"];
+    function init() {
+        let mainparent = document.createElement("div");
+        let langConfig = document.createElement("div");
+        langConfig.className = "langConfig";
+        mainparent.className = "firstParent";
+        let loopCount;
+        loopCount = 0;
+        for (let k of logoArrFromDb) {
+            let log = createElement("img", '', mainparent, classNameArray[loopCount], "#fff");
+            log.src = '@Url.Content("~/img/")' + k;
+            loopCount++;
+        }
+        let container = document.createElement("div");
+        container.className = "container";
+        document.body.appendChild(container);
+        container.appendChild(mainparent);
+        container.appendChild(langConfig);
+        let parent = createElement("div", mainWidth, document.body, "parent", null);
+        let width = mainWidth / arry.length;
+        for (let element of arry) {
+            var imgContainer = document.createElement("div");
+            imgContainer.className="imgContainer";
+            let child = createElement(
+                element.tagName,
+                null,
+                parent,
+                "child",
+                element.backColor,
+                null
+            );
+            child.setAttribute("data-id", element.id);
+            child.href='@Url.Action("Index", "CheckData")?id=' + child.getAttribute("data-id") + '&langId=' + langid;
+            parent.appendChild(child);
+            let $logo = document.createElement("img");
+            $logo.src ='@Url.Content("~/img/")' + element.logo;
+            $logo.className = "logo";
+            imgContainer.appendChild($logo);
+            child.appendChild(imgContainer);
+        }
+        for (let k of langConfigArray ) {
+            let lang = createElement("img", 50 + "px", langConfig, "lang_Icon", '#fff', '');
+            lang.src = '@Url.Content("~/img/")' + k.imagePath;
+            lang.setAttribute("data-langid", k.id)
+        }
+        let secondParent = document.createElement("div");
+        secondParent.className = "secondparent";
+        document.body.appendChild(secondParent);
+        for (let sec_element of secondArray) {
+            let secondChild = createElement(sec_element.tagName,
+                $width,
+                secondParent,
+                "secondchild",
+                sec_element.backColor,
+                "secondchild")
+            secondChild.setAttribute("data-id", sec_element.id)
+            secondChild.href = '@Url.Action("Index", "Provider")?id=' + sec_element.id;
+
+            let $logos = document.createElement("img");
+            let logoblock = document.createElement("div");
+            $logos.src ='@Url.Content("~/img/")'+ sec_element.logo;
+            $logos.className = "secondlogo";
+            logoblock.className = "logoblock";
+            logoblock.appendChild($logos);
+            secondChild.appendChild(logoblock);
+
+            secondParent.appendChild(secondChild);
+            let txt = document.createElement("div");
+            txt.className = "textblock";
+            txt.innerHTML = sec_element.text;
+            secondChild.appendChild(txt);
+
+        }
+        let footer = document.createElement("div");
+        footer.className = "footer";
+        footer.innerHTML = footerText;
+        document.body.appendChild(footer);
+
+        $('.lang_Icon').on("click", function() {
+            $.ajax(
+                    {
+                        method:"GET",
+                        url: "/Home/LangActionResult",
+                        data: { id: this.getAttribute("data-langid")}
+                    })
+                .done(function( msg ) {
+                    let txt = document.getElementsByClassName("textblock");
+                    let arr = [...msg.coreProviderViewModels];
+                    let secArr = [...msg.topProviderViewModels];
+                    console.log(secArr);
+                    let dataAttributes = document.getElementsByClassName("secondchild");
+                    let childAttributes = document.getElementsByClassName("child");
+                    let footerTxt = msg.footerText;
+                    let count = 0;
+                    for (let x of arr) {
+                        txt[count].innerHTML = x.text;
+                        dataAttributes[count].setAttribute("data-id", x.id);
+                        dataAttributes[count].href = '@Url.Action("Index", "Provider")?id=' + x.id;
+                        count++;
+                    }
+                    langid = msg.languageId;
+                    console.log(langid);
+                    for (var i = 0; i < secArr.length; i++) {
+                        childAttributes[i].setAttribute("data-id", secArr[i].id);
+                        childAttributes[i].href='@Url.Action("Index", "CheckData")?id=' + childAttributes[i].getAttribute("data-id") + '&langId=' + langid;
+                    }
+                    $(".footer").html(footerTxt);
+                });
+        })
+
+    }
+
+    function createElement(_tagName, _width, _parent, _className, background, _id) {
+        let element = document.createElement(_tagName);
+        element.style.width = _width + "px";
+        element.className = _className;
+        element.id = _id;
+        element.style.background = background;
+        _parent.appendChild(element);
+        return element;
+    }
+    init();
+
+</script>

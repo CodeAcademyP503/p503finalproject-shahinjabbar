@@ -1,0 +1,62 @@
+﻿@model finalProject.Models.ProviderAdditionalInformation
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ProviderAdditionalInformation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="InputText" class="control-label"></label>
+                <input asp-for="InputText" class="form-control" />
+                <span asp-validation-for="InputText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondaryInputText" class="control-label"></label>
+                <input asp-for="SecondaryInputText" class="form-control" />
+                <span asp-validation-for="SecondaryInputText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInputText" class="control-label"></label>
+                <input asp-for="AdditionalInputText" class="form-control" />
+                <span asp-validation-for="AdditionalInputText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstInputValidLength" class="control-label"></label>
+                <input asp-for="FirstInputValidLength" class="form-control" />
+                <span asp-validation-for="FirstInputValidLength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondaryInputValidLength" class="control-label"></label>
+                <input asp-for="SecondaryInputValidLength" class="form-control" />
+                <span asp-validation-for="SecondaryInputValidLength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInputValidLength" class="control-label"></label>
+                <input asp-for="AdditionalInputValidLength" class="form-control" />
+                <span asp-validation-for="AdditionalInputValidLength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupProviderId" class="control-label"></label>
+                <select asp-for="GroupProviderId" class="form-control" asp-items="ViewBag.GroupProviderId"></select>
+                <span asp-validation-for="GroupProviderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

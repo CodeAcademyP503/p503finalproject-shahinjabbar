@@ -1,0 +1,82 @@
+﻿@model finalProject.Models.GroupProvider
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>GroupProvider</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="TagName" class="control-label"></label>
+                <input asp-for="TagName" class="form-control" />
+                <span asp-validation-for="TagName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BackColor" class="control-label"></label>
+                <input asp-for="BackColor" class="form-control" />
+                <span asp-validation-for="BackColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProviderName" class="control-label"></label>
+                <input asp-for="ProviderName" class="form-control" />
+                <span asp-validation-for="ProviderName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImagePath" class="control-label"></label>
+                <input asp-for="ImagePath" accept=".jpg,.png" type="file" class="form-control" />
+                <span asp-validation-for="ImagePath" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasOptions" /> @Html.DisplayNameFor(model => model.HasOptions)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasSecondaryOptions" /> @Html.DisplayNameFor(model => model.HasSecondaryOptions)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasInput" /> @Html.DisplayNameFor(model => model.HasInput)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasSecondaryInput" /> @Html.DisplayNameFor(model => model.HasSecondaryInput)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasAdditionalInput" /> @Html.DisplayNameFor(model => model.HasAdditionalInput)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CoreProviderId" class="control-label"></label>
+                <select asp-for="CoreProviderId" class="form-control" asp-items="ViewBag.CoreProviderId"></select>
+                <span asp-validation-for="CoreProviderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProviderCategroyId" class="control-label"></label>
+                <input asp-for="ProviderCategroyId" class="form-control" />
+                <span asp-validation-for="ProviderCategroyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

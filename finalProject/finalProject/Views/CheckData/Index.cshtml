@@ -1,0 +1,140 @@
+﻿@using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal
+@model finalProject.Models.ViewModels.CheckDataViewModel;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/CustomLayout.cshtml";
+}
+
+<script>
+    let firstoptions;
+    let firstoptionlabeltext;
+    let hasoptions =@Model.HasOptions.ToString().ToLower();
+    let secondoptions;
+    let hasSecondaryOptions =@Model.HasSecondaryOptions.ToString().ToLower();
+    let secondoptionlabeltext;
+    let hassecondaryinput =@Model.HasSecondaryInput.ToString().ToLower();
+    let langid= @Html.Raw(@Json.Serialize(@Model.LangId));
+    let hasAdditionalInput=@Model.HasAdditionalInput.ToString().ToLower();
+    let secondaryinput;
+    let providerImg;
+    let providername =  @Html.Raw(Json.Serialize(@Model.ProviderName));
+    let provcat  = @Html.Raw(Json.Serialize(@Model.CategoryName));
+    let continuetxt =@Html.Raw(Json.Serialize(@Model.ContinueButtonText));
+    let canceltcxt = @Html.Raw(Json.Serialize(@Model.CancelButtonText));
+    let coreId=@Html.Raw(Json.Serialize(@Model.CoreProviderId));
+    let providerImgPath=@Html.Raw(Json.Serialize(@Model.ImagePath));
+    let providercategoryname=@Html.Raw(Json.Serialize(@Model.CategoryName));
+    let additionalinput;
+    let input = JSON.parse('@Json.Serialize(@Model.FirstInputModel)');
+    function Create() {
+        let container = CreateElement("div", "container-fluid", document.body);
+        let firstRow = CreateElement("div", "row", container);
+        let firstCol = CreateElement("div", "col", firstRow);
+        let secondCol = CreateElement("div", "col providerInfo", firstRow);
+        let thirdCol = CreateElement("div", "col", firstRow);
+        let info = CreateElement("div", "info", secondCol);
+        providerImg = CreateElement("img", "infoimg", info);
+        providerImg.src = '@Url.Content("~/img/")' + providerImgPath;
+        let secondRow = CreateElement("div", "row", container);
+        let fourthCol = CreateElement("div", "col", secondRow);
+        let fifthCol = CreateElement("div", "col center", secondRow);
+        let sixthCol = CreateElement("div", "col", secondRow);
+        if (hasoptions == true) {
+            firstoptions = JSON.parse('@Json.Serialize(@Model.FirstOptions)');
+            firstoptionlabeltext = JSON.parse('@Json.Serialize(@Model.FirstOptionLabelText)');
+            console.log(firstoptions);
+            let firstForm = CreateElement("div", "test", fifthCol);
+            let formPart = CreateElement("div", "form-group row", firstForm);
+            let formCol = CreateElement("div", "col-lg-5", formPart);
+            let label = CreateElement("label", "label", formCol);
+            label.innerHTML = firstoptionlabeltext;
+            let div = CreateElement("div","first",formCol)
+            let selectbox = CreateSelectBox("", "first", div);
+            CreateOptions(firstoptions, "first");
+        }
+        if (hasSecondaryOptions == true) {
+            secondoptions = JSON.parse('@Json.Serialize(@Model.SecondOptions)');
+            secondoptionlabeltext=JSON.parse('@Json.Serialize(@Model.SecindOptionLabelText)');
+            let secondForm = CreateElement("div", "", fifthCol);
+            let formPart = CreateElement("div", "form-group row", secondForm);
+            let formCol = CreateElement("div", "col-lg-5", formPart);
+            let label = CreateElement("label", "", formCol);
+            label.innerHTML =secondoptionlabeltext;
+            let selectbox = CreateSelectBox("", "second", formCol);
+            CreateOptions(secondoptions, "second");
+        }
+        let label = CreateElement("label", "lbl", fifthCol);
+        let labels = CreateElement("label", "labels", fifthCol);
+        label.innerHTML = input.inputText;
+        CreateInput("text", "", input.inputValidLength, "number", "form-control w-100 ", fifthCol);
+        let errorlabel = CreateElement("h5", "error", fifthCol);
+        let errorlabel2 = CreateElement("h5", "error2", fifthCol);
+        let errorlabel3 = CreateElement("h5", "error3", fifthCol);
+        let errorlabel4 = CreateElement("label", "error4", fifthCol);
+        if (hassecondaryinput == true) {
+            secondaryinput = JSON.parse('@Json.Serialize(@Model.SecondInputModel)');
+            let label1 = CreateElement("label", "", fifthCol);
+            label1.innerHTML = secondaryinput.inputText;
+            CreateInput("text", "", secondaryinput.inputValidLength, "numb", "form-control w-100", fifthCol);
+            let errorlabel1 = CreateElement("h5", "error", fifthCol);
+        }
+        if (hasAdditionalInput == true) {
+            additionalinput = JSON.parse('@Json.Serialize(@Model.AdditionalInputModel)');
+            let label1 = CreateElement("label", "", fifthCol);
+            label1.innerHTML = additionalinput.inputText;
+            CreateInput("text", "", additionalinput.inputValidLength, "number", "form-control w-100", fifthCol);
+            let errorlabel1 = CreateElement("h5", "error", fifthCol);
+        }
+
+        let hiddenInput = CreateElement("input", "category",document.body);
+        hiddenInput.type = "hidden";
+        hiddenInput.value = providercategoryname;
+        let hiddenInput2 = CreateElement("input", "lang", document.body);
+        hiddenInput2.type = "hidden";
+        hiddenInput2.value = langid;
+        let hiddenInput3 = CreateElement("input", "providername", document.body);
+        hiddenInput3.type = "hidden";
+        hiddenInput3.value = providername;
+        let submitSection = CreateElement("div", "sumbitSection", fifthCol);
+        let submit = CreateElement("a", "btn btn-primary submit", submitSection);
+        submit.innerHTML = continuetxt;
+        let home = CreateElement("a", "btn btn-info home", submitSection);
+        home.innerHTML = canceltcxt;
+        home.addEventListener("click", function() {
+            window.history.back();
+        })
+    }
+
+    Create();
+
+    function CreateElement(tagName, className, parent) {
+        let element = document.createElement(tagName);
+        element.className = className;
+        parent.appendChild(element);
+        return element;
+    }
+    function CreateSelectBox(className, id, parent) {
+        let selectbox = document.createElement("select");
+        selectbox.className = className;
+        selectbox.id = id;
+        parent.appendChild(selectbox);
+        return selectbox;
+    }
+
+    function CreateOptions(data, selectboxId, className) {
+        for (let elem of data) {
+            let parent = document.getElementById(selectboxId);
+            let option = CreateElement("option", className, parent);
+            option.innerHTML = elem;
+        }
+    }
+
+    function CreateInput(type, name, maxlength, id, className, parent) {
+        let input = CreateElement("input", className, parent);
+        input.id = id;
+        input.setAttribute("type", type);
+        input.setAttribute("name", name);
+        input.setAttribute("maxlength", maxlength);
+        return input;
+    }
+</script>

@@ -1,0 +1,52 @@
+﻿@model RegisterModel
+@{
+    Layout = "~/Views/Shared/_LoginRegister.cshtml";
+}
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Register an Account</div>
+    <div class="card-body">
+        <form asp-action="Register" asp-controller="Account">
+            <div class="form-group">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input class="form-control" asp-for="UserName" placeholder="Enter your Name" />
+                            <span asp-validation-for="UserName"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input class="form-control" asp-for="Email" placeholder="Enter your Email"/>
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-label-group">
+                    <input class="form-control" asp-for="Password" placeholder="Enter your Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm your Password" />
+                            <span asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group ">
+                <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+            </div>
+            <div class="text-center">
+                <a class="d-block small mt-3" asp-action="Login" asp-controller="Account">Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+

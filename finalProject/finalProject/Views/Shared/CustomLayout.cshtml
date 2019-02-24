@@ -1,0 +1,563 @@
+﻿@using System.Runtime.InteropServices.ComTypes
+@using finalProject.Models;
+@inject IJsonHelper Json;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/js/jquery-nice-select-1.1.0/css/nice-select.css">
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <title>Document</title>
+</head>
+<body>
+
+    @RenderBody()
+
+</body>
+@*@RenderSection("scripts", false)*@
+
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="~/js/jquery-nice-select-1.1.0/js/jquery.nice-select.js"></script>
+<script>
+    $(document).ready(function () {
+        $('select').niceSelect();
+    });
+    let selected = null;
+    window.selectedoption = selected;
+    $(".submit").on('click', function () {
+        let categ = document.getElementsByClassName("category")[0].value;
+        let lang = document.getElementsByClassName("lang")[0].value;
+        let prov = document.getElementsByClassName("providername")[0].value;
+        if (categ == "mobile") {
+            let v = $("#number").val();
+            if (v != "") {
+                if (selected != null) {
+                    $.ajax(
+                        {
+                            method: "GET",
+                            url: 'https://localhost:44354/api/mobile/GetData',
+                            data: { langid: lang, prefix: selected, number: v, provname: prov }
+                        })
+                        .done(function (msg) {
+                            $(".error").html("");
+                            $(".error2").html("");
+                            $(".error3").html("");
+                            ShowDataandPay();
+                        })
+                        .fail(function (msg) {
+                            $(".error").html("");
+                            if (lang == 1) {
+                                $(".error3").html("Hech ne tapilmadi!!!");
+                            }
+                            else if (lang == 2) {
+                                $(".error3").html("Hичего не найдено!!!");
+                            }
+                            else if (lang == 3) {
+                                $(".error3").html("Nothing found!!!");
+                            }
+                        });
+                }
+                else if (lang == 1) {
+                    $(".error").html("Prefix sechin");
+                }
+                else if (lang == 2) {
+                    $(".error").html("выберите префикс");
+                }
+                else if (lang == 3) {
+                    $(".error").html("select prefix ");
+                }
+            }
+            else if (lang == 1) {
+                $(".error").html("Yanlish paramter");
+            }
+            else if (lang == 2) {
+                $(".error").html("неправильный параметр ");
+            }
+            else if (lang == 3) {
+                $(".error").html("Wrong parameter");
+            }
+        }
+        if (categ == "utility") {
+            let v = $("#number").val();
+            if (v != "") {
+                if (selected != null) {
+                    $.ajax(
+                        {
+                            method: "GET",
+                            url: 'https://localhost:44354/api/utility/GetData',
+                            data: { langid: lang, prefix: selected, number: v, provname: prov }
+                        })
+                        .done(function (msg) {
+                            $(".error").html("");
+                            $(".error2").html("");
+                            $(".error3").html("");
+                            ShowDataandPay();
+                        })
+                        .fail(function (msg) {
+                            $(".error").html("");
+                            if (lang == 1) {
+                                $(".error3").html("Hech ne tapilmadi!!!");
+                            }
+                            else if (lang == 2) {
+                                $(".error3").html("Hичего не найдено!!!");
+                            }
+                            else if (lang == 3) {
+                                $(".error3").html("Nothing found!!!");
+                            }
+                        });
+                }
+                else if (lang == 1) {
+                    $(".error").html("Prefix sechin");
+                }
+                else if (lang == 2) {
+                    $(".error").html("выберите префикс");
+                }
+                else if (lang == 3) {
+                    $(".error").html("select prefix ");
+                }
+            }
+            else if (lang == 1) {
+                $(".error").html("Yanlish paramter");
+            }
+            else if (lang == 2) {
+                $(".error").html("неправильный параметр ");
+            }
+            else if (lang == 3) {
+                $(".error").html("Wrong parameter");
+            }
+        }
+        if (categ == "bank") {
+            let v = $("#number").val();
+            let c = $("#numb").val();
+            if (v != "") {
+                if (c != "") {
+                    $.ajax(
+                        {
+                            method: "GET",
+                            url: 'https://localhost:44354/api/bank/GetData',
+                            data: { number: v, secondnumber: c, provname: prov }
+                        })
+                        .done(function (msg) {
+                            $(".error").html("");
+                            $(".error2").html("");
+                            $(".error3").html("");
+                            ShowDataandPay();
+                        })
+                        .fail(function (msg) {
+                            $(".error").html("");
+                            if (lang == 1) {
+                                $(".error3").html("Hech ne tapilmadi!!!");
+                            }
+                            else if (lang == 2) {
+                                $(".error3").html("Hичего не найдено!!!");
+                            }
+                            else if (lang == 3) {
+                                $(".error3").html("Nothing found!!!");
+                            }
+                        });
+                }
+                else if (lang == 1) {
+                    $(".error").html("Yanlish paramter");
+                }
+                else if (lang == 2) {
+                    $(".error").html("неправильный параметр");
+                }
+                else if (lang == 3) {
+                    $(".error").html("Wrong parameter");
+                }
+            }
+            else if (lang == 1) {
+                $(".error").html("Yanlish paramter");
+            }
+            else if (lang == 2) {
+                $(".error").html("неправильный параметр ");
+            }
+            else if (lang == 3) {
+                $(".error").html("Wrong parameter");
+            }
+        }
+        if (categ == "state") {
+            let v = $("#number").val();
+            if (v != "") {
+                if (selected != null) {
+                    $.ajax(
+                        {
+                            method: "GET",
+                            url: 'https://localhost:44354/api/state/GetData',
+                            data: { langid: lang, prefix: selected, number: v, provname: prov }
+                        })
+                        .done(function (msg) {
+                            $(".error").html("");
+                            $(".error2").html("");
+                            $(".error3").html("");
+                            ShowDataandPay();
+                        })
+                        .fail(function (msg) {
+                            $(".error").html("");
+                            if (lang == 1) {
+                                $(".error3").html("Hech ne tapilmadi!!!");
+                            }
+                            else if (lang == 2) {
+                                $(".error3").html("Hичего не найдено!!!");
+                            }
+                            else if (lang == 3) {
+                                $(".error3").html("Nothing found!!!");
+                            }
+                        });
+                }
+                else if (lang == 1) {
+                    $(".error").html("Prefix sechin");
+                }
+                else if (lang == 2) {
+                    $(".error").html("выберите префикс");
+                }
+                else if (lang == 3) {
+                    $(".error").html("select prefix ");
+                }
+            }
+            else if (lang == 1) {
+                $(".error").html("Yanlish paramter");
+            }
+            else if (lang == 2) {
+                $(".error").html("неправильный параметр ");
+            }
+            else if (lang == 3) {
+                $(".error").html("Wrong parameter");
+            }
+        }
+        if (categ == "tv") {
+            let v = $("#number").val();
+            if (v != "") {
+                $.ajax(
+                    {
+                        method: "GET",
+                        url: 'https://localhost:44354/api/tv/GetData',
+                        data: { number: v, provname: prov }
+                    })
+                    .done(function (msg) {
+                        $(".error").html("");
+                        $(".error2").html("");
+                        $(".error3").html("");
+                        ShowDataandPay();
+                    })
+                    .fail(function (msg) {
+                        $(".error").html("");
+                        if (lang == 1) {
+                            $(".error3").html("Hech ne tapilmadi!!!");
+                        }
+                        else if (lang == 2) {
+                            $(".error3").html("Hичего не найдено!!!");
+                        }
+                        else if (lang == 3) {
+                            $(".error3").html("Nothing found!!!");
+                        }
+                    });
+
+            }
+            else if (lang == 1) {
+                $(".error").html("Prefix sechin");
+            }
+            else if (lang == 2) {
+                $(".error").html("выберите префикс");
+            }
+            else if (lang == 3) {
+                $(".error").html("select prefix ");
+            }
+        }
+        if (categ == "internet") {
+            let v = $("#number").val();
+            if (v != "") {
+                $.ajax(
+                    {
+                        method: "GET",
+                        url: 'https://localhost:44354/api/internet/GetData',
+                        data: { number: v, provname: prov }
+                    })
+                    .done(function (msg) {
+                        $(".error").html("");
+                        $(".error2").html("");
+                        $(".error3").html("");
+                        ShowDataandPay();
+                    })
+                    .fail(function (msg) {
+                        $(".error").html("");
+                        if (lang == 1) {
+                            $(".error3").html("Hech ne tapilmadi!!!");
+                        }
+                        else if (lang == 2) {
+                            $(".error3").html("Hичего не найдено!!!");
+                        }
+                        else if (lang == 3) {
+                            $(".error3").html("Nothing found!!!");
+                        }
+                    });
+
+            }
+            else if (lang == 1) {
+                $(".error").html("Prefix sechin");
+            }
+            else if (lang == 2) {
+                $(".error").html("выберите префикс");
+            }
+            else if (lang == 3) {
+                $(".error").html("select prefix ");
+            }
+        }
+        if (categ == "phone") {
+            let v = $("#number").val();
+            if (v != "") {
+                $.ajax(
+                    {
+                        method: "GET",
+                        url: 'https://localhost:44354/api/phone/GetData',
+                        data: { number: v, provname: prov }
+                    })
+                    .done(function (msg) {
+                        $(".error").html("");
+                        $(".error2").html("");
+                        $(".error3").html("");
+                        ShowDataandPay();
+                    })
+                    .fail(function (msg) {
+                        $(".error").html("");
+                        if (lang == 1) {
+                            $(".error3").html("Hech ne tapilmadi!!!");
+                        }
+                        else if (lang == 2) {
+                            $(".error3").html("Hичего не найдено!!!");
+                        }
+                        else if (lang == 3) {
+                            $(".error3").html("Nothing found!!!");
+                        }
+                    });
+
+            }
+            else if (lang == 1) {
+                $(".error").html("Prefix sechin");
+            }
+            else if (lang == 2) {
+                $(".error").html("выберите префикс");
+            }
+            else if (lang == 3) {
+                $(".error").html("select prefix ");
+            }
+        }
+        if (categ == "Entertainment") {
+            let v = $("#number").val();
+            if (v != "") {
+                if (selected != null) {
+                    $.ajax(
+                        {
+                            method: "GET",
+                            url: 'https://localhost:44354/api/utility/GetData',
+                            data: { langid: lang, prefix: selected, number: v, provname: prov }
+                        })
+                        .done(function (msg) {
+                            $(".error").html("");
+                            $(".error2").html("");
+                            $(".error3").html("");
+                            ShowDataandPay();
+                        })
+                        .fail(function (msg) {
+                            $(".error").html("");
+                            if (lang == 1) {
+                                $(".error3").html("Hech ne tapilmadi!!!");
+                            }
+                            else if (lang == 2) {
+                                $(".error3").html("Hичего не найдено!!!");
+                            }
+                            else if (lang == 3) {
+                                $(".error3").html("Nothing found!!!");
+                            }
+                        });
+                }
+                else if (lang == 1) {
+                    $(".error").html("Prefix sechin");
+                }
+                else if (lang == 2) {
+                    $(".error").html("выберите префикс");
+                }
+                else if (lang == 3) {
+                    $(".error").html("select prefix ");
+                }
+            }
+            else if (lang == 1) {
+                $(".error").html("Yanlish paramter");
+            }
+            else if (lang == 2) {
+                $(".error").html("неправильный параметр ");
+            }
+            else if (lang == 3) {
+                $(".error").html("Wrong parameter");
+            }
+        }
+        if (categ == "e_wallet") {
+            let v = $("#number").val();
+            if (v != "") {
+                if (selected != null) {
+                    $.ajax(
+                        {
+                            method: "GET",
+                            url: 'https://localhost:44354/api/ewallet/GetData',
+                            data: { langid: lang, prefix: selected, number: v, provname: prov }
+                        })
+                        .done(function (msg) {
+                            $(".error").html("");
+                            $(".error2").html("");
+                            $(".error3").html("");
+                            ShowDataandPay();
+                        })
+                        .fail(function (msg) {
+                            $(".error").html("");
+                            if (lang == 1) {
+                                $(".error3").html("Hech ne tapilmadi!!!");
+                            }
+                            else if (lang == 2) {
+                                $(".error3").html("Hичего не найдено!!!");
+                            }
+                            else if (lang == 3) {
+                                $(".error3").html("Nothing found!!!");
+                            }
+                        });
+                }
+                else if (lang == 1) {
+                    $(".error").html("Prefix sechin");
+                }
+                else if (lang == 2) {
+                    $(".error").html("выберите префикс");
+                }
+                else if (lang == 3) {
+                    $(".error").html("select prefix ");
+                }
+            }
+            else if (lang == 1) {
+                $(".error").html("Yanlish paramter");
+            }
+            else if (lang == 2) {
+                $(".error").html("неправильный параметр ");
+            }
+            else if (lang == 3) {
+                $(".error").html("Wrong parameter");
+            }
+        }
+    })
+    let prefixtxt;
+    if (hasoptions == true) {
+       prefixtxt = document.getElementsByClassName("label")[0].innerHTML;
+    }
+    let lbltext = document.getElementsByClassName("lbl")[0].innerHTML;
+    function ShowDataandPay() {
+        $(".first").css("display", "none");
+        if (hasoptions == true) {
+            document.getElementsByClassName("label")[0].innerHTML += ':' + selected;
+        }
+        document.getElementsByClassName("lbl")[0].innerHTML += ':' + $("#number").val();
+        $("#number").val("");
+        let btn = document.createElement("button");
+        btn.className = "btn btn-primary secondsubmit";
+        let btn2 = document.createElement("button");
+        btn2.className = "btn btn-info secondhome";
+        let langname = document.getElementsByClassName("lang")[0].value;
+        if (langname == "1") {
+            $(".labels").text("Məbləğ");
+            btn.innerHTML = "Davam Et";
+            btn2.innerHTML = "Imtina Et";
+        }
+        else if (langname == "2") {
+            $(".labels").text("Сумма");
+            btn.innerHTML = "Далее";
+            btn2.innerHTML = "Отменить";
+        }
+        else if (langname == "3") {
+            $(".labels").text("Amount");
+            btn.innerHTML = "Continue";
+            btn2.innerHTML = "Cancel";
+        }
+
+        document.getElementsByClassName("sumbitSection")[0].appendChild(btn);
+        document.getElementsByClassName("sumbitSection")[0].appendChild(btn2);
+        $(".submit").css("display", "none");
+        $(".home").css("display", "none");
+    }
+
+    let seconsubmit = document.getElementsByClassName("secondsubmit")[0];
+    $(document).on("click",
+        ".secondsubmit",
+        function () {
+            let v = $("#number").val();
+            let parseddata = parseInt(v);
+            let langname = document.getElementsByClassName("lang")[0].value;
+            if (langname == "1") {
+                if (!isNaN(parseddata) && (v != "")) {
+                    $(".error4").text("Odenishiniz ugurlu oldu");
+                    $(".error4").css("color", "green");
+                } else {
+                    $(".error4").text("Odenishiniz ugursuz oldu.Duzgun parameter daxil edin");
+                    $(".error4").css("color", "red");
+                }
+            }
+            else if (langname == "2") {
+                if (!isNaN(parseddata) && (v != "")) {
+                    $(".error4").text("Oплата успешно завершен");
+                    $(".error4").css("color", "green");
+                } else {
+                    $(".error4").text("Oплата нe завершен.Bведите правильный параметр");
+                    $(".error4").css("color", "red");
+                }
+            }
+            else if (langname == "3") {
+                if (!isNaN(parseddata) && (v != "")) {
+                    $(".error4").text("Payment completed successfully");
+                    $(".error4").css("color", "green");
+                } else {
+                    $(".error4").text("Payment completed unsuccessfully.Enter the correct parameter");
+                    $(".error4").css("color", "red");
+                }
+            }
+        });
+
+    $(document).on("click",
+        ".secondhome",
+        function () {
+            $(".first").css("display", "block");
+            if (hasoptions == true) {
+                document.getElementsByClassName("label")[0].innerHTML = prefixtxt;
+            }
+            document.getElementsByClassName("lbl")[0].innerHTML = lbltext;
+            $(".secondsubmit").css("display", "none");
+            $(".secondhome").css("display", "none");
+            $(".submit").css("display", "block");
+            $(".home").css("display", "block");
+            $(".labels").text("");
+            $(".error4").text("");
+            $("#number").val("");
+        });
+    //function HideData() {
+
+    //$(document).ready(function () {
+    //    $(".secondsubmit").click(function () {
+
+    //    });
+    //});
+    ////seconsubmit.addEventListener("click", function () {
+
+    //})
+    //$(".secondsubmit").click(function () {
+
+    //})
+
+    $(".first").on('change',
+        'select',
+        function () {
+            selected = $(this).val();
+            console.log(selected);
+        });
+</script>
+
+
+

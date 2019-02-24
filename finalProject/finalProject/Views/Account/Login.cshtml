@@ -1,0 +1,36 @@
+﻿@model LoginModel
+@{
+    Layout = "~/Views/Shared/_LoginRegister.cshtml";
+}
+<div class="card card-login mx-auto mt-5">
+    <div class="card-header">Login</div>
+    <div class="card-body">
+        <form method="post" asp-action="Login" asp-controller="Account">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="cols-sm-2 control-label"></label>
+                <div class="form-label-group">
+                    <input class="form-control" asp-for="Email" placeholder="Enter your Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="cols-sm-2 control-label"></label>
+                <div class="form-label-group">
+                    <input class="form-control" asp-for="Password" placeholder="Enter your Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="RememberMe" class="cols-sm-2 control-label"></label>
+                <input asp-for="RememberMe"  type="checkbox" checked>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+            </div>
+            <div class="text-center">
+                <a class="d-block small mt-3" asp-action="Register" asp-controller="Account">Register an Account</a>
+            </div>
+        </form>
+    </div>
+</div>

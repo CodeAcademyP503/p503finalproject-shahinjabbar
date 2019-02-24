@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Internal
+@model finalProject.Models.ViewModels.ProviderViewModel;
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    let mainwidth = 1200;
+    let mainarray = JSON.parse('@Json.Serialize(@Model.GroupProviderViewModels)');
+    let lang = JSON.parse('@Json.Serialize(@Model.GroupProviderViewModels.Select(x=>x.LangId).FirstOrDefault())');
+    let Width = mainwidth / 5;
+    let homebtntxt =  @Html.Raw(Json.Serialize(@Model.HomeButtonText));
+    let headerText= @Html.Raw(Json.Serialize(@Model.HeaderViewModels.Select(x=>x.Text)));
+    let headerImgPath =  @Html.Raw(Json.Serialize(@Model.HeaderViewModels.Select(x=>x.ImgPath)));
+    function Initialize() {
+        let header = document.createElement("h1");
+        header.innerHTML = headerText;
+        header.className = "header";
+        let parent = createElement("div", mainwidth, document.body, "mainparent", null);
+        let headerInfo = document.createElement("div");
+        headerInfo.className = "headerInfo";
+        let headerImg = document.createElement("img");
+        headerImg.src = '@Url.Content("~/img/")' + headerImgPath;
+        let borderLine = document.createElement("div");
+        borderLine.className = "borderLine";
+        parent.appendChild(headerInfo);
+        headerInfo.appendChild(headerImg);
+        headerInfo.appendChild(borderLine);
+        headerInfo.appendChild(header);
+        let secondParent = document.createElement("div");
+        secondParent.className = "secondParent";
+        document.body.appendChild(secondParent);
+        let loopCount = 0;
+        for (let provider of mainarray) {
+            let child = createElement(provider.tagName, Width, parent, "provider", provider.backcolor);
+            child.setAttribute("data-id", provider.id);
+            child.href = '@Url.Action("Index", "CheckData")?id=' + child.getAttribute("data-id") + '&langId=' + lang;
+            secondParent.appendChild(child);
+        }
+        for (let pct of mainarray) {
+            let providerPart = document.createElement("div");
+            providerPart.className = "providerPart";
+            let child = document.getElementsByClassName("provider");
+            let divlogos = document.createElement("img");
+            divlogos.src = '@Url.Content("~/img/")' + pct.imagePath;
+            divlogos.className = "providerlogo";
+            providerPart.appendChild(divlogos);
+            child[loopCount].appendChild(providerPart);
+            loopCount++;
+        }
+
+        let footerPart = document.createElement("div");
+        footerPart.className = "footerPart";
+        document.body.appendChild(footerPart);
+        let homebutton = document.createElement("button");
+        homebutton.className = "homebutton";
+
+            homebutton.innerHTML = homebtntxt;
+
+        footerPart.appendChild(homebutton);
+        homebutton.onclick = () => { document.location.href = '@Url.Action("Index", "Home")?id=' + lang };
+        let hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.id = "langId";
+        hiddenInput.value = lang;
+        document.body.appendChild(hiddenInput);
+    }
+
+    function createElement(_tagName, _width, _parent, _className, background, _id,) {
+        let element = document.createElement(_tagName);
+        element.style.width = _width + "px";
+        element.className = _className;
+        element.id = _id;
+        element.style.background = background;
+        _parent.appendChild(element);
+        return element;
+    }
+    Initialize();
+</script>
+
+
